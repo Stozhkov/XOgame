@@ -3,19 +3,19 @@ import java.util.Scanner;
 
 public class Field {
 
-    private static final int FIELD_SIZE = 3;
+    private int fieldSize;
     private static final char DEFAULT_FIELD_VALUE = ' ';
-    private char field[][] = new char[FIELD_SIZE][FIELD_SIZE];
+    private char field[][];
 
-    Field() {
-
+    public Field(int fieldSize) {
+        this.fieldSize = fieldSize;
+        field = new char[fieldSize][fieldSize];
         setFieldsDefault();
-
     }
 
     public void showFields() {
-        for (int i = 0; i < FIELD_SIZE; i++){
-            for (int j = 0; j < FIELD_SIZE; j++)
+        for (int i = 0; i < fieldSize; i++){
+            for (int j = 0; j < fieldSize; j++)
             {
                 System.out.print("[" + field[i][j] + "]");
             }
@@ -24,8 +24,8 @@ public class Field {
     }
 
     private void setFieldsDefault() {
-        for (int i = 0; i < FIELD_SIZE; i++){
-            for (int j = 0; j < FIELD_SIZE; j++)
+        for (int i = 0; i < fieldSize; i++){
+            for (int j = 0; j < fieldSize; j++)
             {
                 field[i][j] = DEFAULT_FIELD_VALUE;
             }
@@ -42,9 +42,9 @@ public class Field {
     }
 
     public void movePlayer(char whoseNextMove) {
-        System.out.print("Введите координату по вертикальной оси от 1 до " + FIELD_SIZE + ":");
+        System.out.print("Введите координату по вертикальной оси от 1 до " + fieldSize + ":");
         int verticalCoordinate = getPlayerNum();
-        System.out.print("Введите координату по горизонтальной оси от 1 до " + FIELD_SIZE + ":");
+        System.out.print("Введите координату по горизонтальной оси от 1 до " + fieldSize + ":");
         int horizontalCoordinate = getPlayerNum();
         System.out.println();
         setFields(verticalCoordinate - 1, horizontalCoordinate - 1, whoseNextMove);
@@ -63,7 +63,7 @@ public class Field {
             playerNum = getPlayerNum();
         }
 
-        if (playerNum > 0 && playerNum <= FIELD_SIZE) {
+        if (playerNum > 0 && playerNum <= fieldSize) {
             return playerNum;
         }
         else {
@@ -91,16 +91,16 @@ public class Field {
     }
 
     private boolean checkLines() {
-        for (int i = 0; i < FIELD_SIZE; i++) {
+        for (int i = 0; i < fieldSize; i++) {
 
             char cell = 0;
 
             if (field[i][0] != DEFAULT_FIELD_VALUE) {
                 cell = field[i][0];
             }
-            for (int j = 1; j < FIELD_SIZE; j++) {
+            for (int j = 1; j < fieldSize; j++) {
                 if (field[i][j] == cell) {
-                    if (j == (FIELD_SIZE - 1)) {
+                    if (j == (fieldSize - 1)) {
                         return true;
                     }
                 } else {
@@ -112,16 +112,16 @@ public class Field {
     }
 
     private boolean checkColumns() {
-        for (int j = 0; j < FIELD_SIZE; j++) {
+        for (int j = 0; j < fieldSize; j++) {
 
             char cell = 0;
 
             if (field[0][j] != DEFAULT_FIELD_VALUE) {
                 cell = field[0][j];
             }
-            for (int i = 1; i < FIELD_SIZE; i++) {
+            for (int i = 1; i < fieldSize; i++) {
                 if (field[i][j] == cell) {
-                    if (i == (FIELD_SIZE - 1)) {
+                    if (i == (fieldSize - 1)) {
                         return true;
                     }
                 } else {
@@ -142,10 +142,10 @@ public class Field {
             return false;
         }
 
-        for (int i = 1; i < FIELD_SIZE; i++) {
+        for (int i = 1; i < fieldSize; i++) {
 
             if (field[i][i] == cell) {
-                if (i == (FIELD_SIZE - 1)) {
+                if (i == (fieldSize - 1)) {
                     return true;
                 }
             } else {
@@ -159,15 +159,15 @@ public class Field {
 
         char cell;
 
-        if (field[FIELD_SIZE-1][0] != DEFAULT_FIELD_VALUE) {
-            cell = field[FIELD_SIZE-1][0];
+        if (field[fieldSize -1][0] != DEFAULT_FIELD_VALUE) {
+            cell = field[fieldSize -1][0];
         } else {
             return false;
         }
 
-        for (int i = 1; i < FIELD_SIZE; i++)
-            if (field[FIELD_SIZE-1-i][i] == cell) {
-                if (i == (FIELD_SIZE - 1)) {
+        for (int i = 1; i < fieldSize; i++)
+            if (field[fieldSize -1-i][i] == cell) {
+                if (i == (fieldSize - 1)) {
                     return true;
                 }
             } else {
@@ -177,8 +177,8 @@ public class Field {
     }
 
     private boolean checkNoMoves() {
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++){
+        for (int i = 0; i < fieldSize; i++) {
+            for (int j = 0; j < fieldSize; j++){
                 if (field[i][j] == DEFAULT_FIELD_VALUE) {
                     return false;
                 }

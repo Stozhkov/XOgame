@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         boolean endGame = false;
-        Field field = new Field();
+        Field field = new Field(3);
         Player player = new Player();
 
         System.out.println("*********************************************");
