@@ -3,8 +3,10 @@ import java.util.Scanner;
 
 public class Field {
 
-    private int fieldSize;
     private static final char DEFAULT_FIELD_VALUE = ' ';
+
+    private final int fieldSize;
+
     private char field[][];
 
     public Field(int fieldSize) {
