@@ -61,6 +61,9 @@ public class Field {
     }
 
     private boolean checkLines() {
+
+        boolean checkResult = false;
+
         for (int i = 0; i < fieldSize; i++) {
 
             char cell = 0;
@@ -71,12 +74,14 @@ public class Field {
             for (int j = 1; j < fieldSize; j++) {
                 if (field[i][j] == cell) {
                     if (j == (fieldSize - 1)) {
-                        return true;
+                        checkResult = true;
                     }
+                } else {
+                    break;
                 }
             }
         }
-        return false;
+        return checkResult;
     }
 
     private boolean checkColumns() {
@@ -92,6 +97,8 @@ public class Field {
                     if (i == (fieldSize - 1)) {
                         return true;
                     }
+                }  else {
+                    break;
                 }
             }
         }

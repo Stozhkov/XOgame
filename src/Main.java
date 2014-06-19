@@ -5,27 +5,33 @@ public class Main {
     public static final int MIN_FIELD_SIZE = 2;
     public static final int MAX_FIELD_SIZE = 10;
 
-
-
     public static void main(String[] args) {
 
         int verticalCoordinate;
         int horizontalCoordinate;
+
         boolean endGame = false;
+        boolean playerMadeMove;
 
         Player player = new Player();
 
-        System.out.println("*********************************************");
+        System.out.println("*******************************************************");
         System.out.println("Игра крестики - нолики");
-        System.out.println("*********************************************");
-        System.out.print("Введите размер игрового поля: ");
+        System.out.println("*******************************************************");
+
+        System.out.println("Задайте размер игрового поля.");
+        System.out.print("Диапазон допустимых значений от " + MIN_FIELD_SIZE + " до " + MAX_FIELD_SIZE + ": ");
         Field field = new Field(getPlayerNum(MIN_FIELD_SIZE, MAX_FIELD_SIZE));
+
+        System.out.println("*******************************************************");
+
         System.out.println("1 игрок выбирает за кого он будет играть.");
         System.out.println("  Введите 1 если будите играть Х");
         System.out.println("  Введите 2 если будите играть О");
 
-        player.changePlayer();
+//        player.changePlayer();
         player.playerSelection();
+        System.out.println("*******************************************************");
 
         while (!endGame){
             field.showFields();
@@ -37,9 +43,9 @@ public class Main {
             System.out.print("Введите координату по горизонтальной оси от 1 до " + field.getFieldSize() + ":");
             horizontalCoordinate = getPlayerNum(1, field.getFieldSize());
 
-            boolean playerMadeMove = field.setFields(verticalCoordinate-1, horizontalCoordinate-1, player.getWhoseNextMove());
+            playerMadeMove = field.setFields(verticalCoordinate-1, horizontalCoordinate-1, player.getWhoseNextMove());
 
-
+            System.out.println("*******************************************************");
 
             if (playerMadeMove) {
                 endGame = field.validation(player.getWhoseNextMove());

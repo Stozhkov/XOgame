@@ -5,6 +5,7 @@ public class Player {
     private char whoseNextMove = ' ';
 
     public void playerSelection() {
+
         System.out.print("Ожидается ввод 1 или 2: ");
         Scanner reader = new Scanner(System.in);
         int numberOfUsers = 0;
@@ -27,10 +28,12 @@ public class Player {
     }
 
     public char getWhoseNextMove() {
+
         return whoseNextMove;
     }
 
     public void changePlayer() {
+
         if (whoseNextMove == 'X') {
             whoseNextMove = 'O';
         } else {
@@ -39,6 +42,7 @@ public class Player {
     }
 
     public void printWhoseMove() {
+
         System.out.println("Ходит игрок - \"" + whoseNextMove + "\"");
     }
 }
