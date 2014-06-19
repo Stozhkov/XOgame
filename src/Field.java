@@ -73,8 +73,6 @@ public class Field {
                     if (j == (fieldSize - 1)) {
                         return true;
                     }
-                } else {
-                    return false;
                 }
             }
         }
@@ -94,8 +92,6 @@ public class Field {
                     if (i == (fieldSize - 1)) {
                         return true;
                     }
-                } else {
-                    return false;
                 }
             }
         }
