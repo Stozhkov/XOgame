@@ -1,22 +1,33 @@
 public class Field {
 
     private static final char DEFAULT_FIELD_VALUE = ' ';
-
-    public int getFieldSize() {
-        return fieldSize;
-    }
-
     private final int fieldSize;
-
     private char field[][];
 
     public Field(int fieldSize) {
+
         this.fieldSize = fieldSize;
         field = new char[fieldSize][fieldSize];
         setFieldsDefault();
     }
 
+    private void setFieldsDefault() {
+
+        for (int i = 0; i < fieldSize; i++){
+            for (int j = 0; j < fieldSize; j++)
+            {
+                field[i][j] = DEFAULT_FIELD_VALUE;
+            }
+        }
+    }
+
+    public int getFieldSize() {
+
+        return fieldSize;
+    }
+
     public void showFields() {
+
         for (int i = 0; i < fieldSize; i++){
             for (int j = 0; j < fieldSize; j++)
             {
@@ -26,16 +37,8 @@ public class Field {
         }
     }
 
-    private void setFieldsDefault() {
-        for (int i = 0; i < fieldSize; i++){
-            for (int j = 0; j < fieldSize; j++)
-            {
-                field[i][j] = DEFAULT_FIELD_VALUE;
-            }
-        }
-    }
-
     public boolean setFields(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
+
         if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
             field[verticalCoordinate][horizontalCoordinate] = whoseNextMove;
             return true;
@@ -46,6 +49,7 @@ public class Field {
     }
 
     public boolean validation (char whoseNextMove) {
+
         if (checkLines() || checkColumns() || checkDiagonalLeft() || checkDiagonalRight()) {
             System.out.println("Победил игрок \"" + whoseNextMove + "\"");
             return true;
@@ -85,6 +89,9 @@ public class Field {
     }
 
     private boolean checkColumns() {
+
+        boolean checkResult = false;
+
         for (int j = 0; j < fieldSize; j++) {
 
             char cell = 0;
@@ -95,14 +102,14 @@ public class Field {
             for (int i = 1; i < fieldSize; i++) {
                 if (field[i][j] == cell) {
                     if (i == (fieldSize - 1)) {
-                        return true;
+                        checkResult = true;
                     }
                 }  else {
                     break;
                 }
             }
         }
-        return false;
+        return checkResult;
     }
 
     private boolean checkDiagonalLeft() {
@@ -125,6 +132,7 @@ public class Field {
                 return false;
             }
         }
+
         return false;
     }
 
@@ -146,10 +154,12 @@ public class Field {
             } else {
                 return false;
             }
+
         return false;
     }
 
     private boolean checkNoMoves() {
+
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++){
                 if (field[i][j] == DEFAULT_FIELD_VALUE) {
@@ -157,6 +167,7 @@ public class Field {
                 }
             }
         }
+
         return true;
     }
 }

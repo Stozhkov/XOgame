@@ -28,12 +28,12 @@ public class Main {
         System.out.println("1 игрок выбирает за кого он будет играть.");
         System.out.println("  Введите 1 если будите играть Х");
         System.out.println("  Введите 2 если будите играть О");
-
-//        player.changePlayer();
-        player.playerSelection();
+        System.out.print("Ожидается ввод пользователя: ");
+        player.playerSelection(getPlayerNum(1, 2));
         System.out.println("*******************************************************");
 
         while (!endGame){
+
             field.showFields();
             player.printWhoseMove();
 
@@ -57,6 +57,7 @@ public class Main {
     }
 
     public static int getPlayerNum(int minValue, int maxValue) {
+
         Scanner reader = new Scanner(System.in);
         int playerNum;
 
