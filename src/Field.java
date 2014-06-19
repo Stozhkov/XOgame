@@ -1,9 +1,10 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Field {
 
     private static final char DEFAULT_FIELD_VALUE = ' ';
+
+    public int getFieldSize() {
+        return fieldSize;
+    }
 
     private final int fieldSize;
 
@@ -34,48 +35,15 @@ public class Field {
         }
     }
 
-    private void setFields(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
+    public boolean setFields(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
         if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
             field[verticalCoordinate][horizontalCoordinate] = whoseNextMove;
+            return true;
         } else {
             System.out.println("Данная ячейка занята. Выберете другую.");
-            movePlayer(whoseNextMove);
+            return false;
         }
     }
-
-    public void movePlayer(char whoseNextMove) {
-        System.out.print("Введите координату по вертикальной оси от 1 до " + fieldSize + ":");
-        int verticalCoordinate = getPlayerNum();
-        System.out.print("Введите координату по горизонтальной оси от 1 до " + fieldSize + ":");
-        int horizontalCoordinate = getPlayerNum();
-        System.out.println();
-        setFields(verticalCoordinate - 1, horizontalCoordinate - 1, whoseNextMove);
-    }
-
-    private int getPlayerNum() {
-        Scanner reader = new Scanner(System.in);
-        int playerNum;
-
-        try {
-            playerNum = reader.nextInt();
-        }
-        catch (InputMismatchException e)
-        {
-            System.out.print("Вы ввели не число. Введите еще раз: ");
-            playerNum = getPlayerNum();
-        }
-
-        if (playerNum > 0 && playerNum <= fieldSize) {
-            return playerNum;
-        }
-        else {
-            System.out.print("Введенное вами число выходит за пределы поля. Введите еще раз: ");
-        }
-
-        return getPlayerNum();
-    }
-
-
 
     public boolean validation (char whoseNextMove) {
         if (checkLines() || checkColumns() || checkDiagonalLeft() || checkDiagonalRight()) {
