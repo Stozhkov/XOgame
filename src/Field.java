@@ -50,7 +50,10 @@ public class Field {
 
     public boolean validation (char whoseNextMove) {
 
-        if (checkLines(whoseNextMove) || checkColumns(whoseNextMove) || checkDiagonalLeft(whoseNextMove) || checkDiagonalRight(whoseNextMove)) {
+        if (checkLines(whoseNextMove) ||
+            checkColumns(whoseNextMove) ||
+            checkDiagonalLeft(whoseNextMove) ||
+            checkDiagonalRight(whoseNextMove)) {
             System.out.println("Игра окончена. Победил игрок \"" + whoseNextMove + "\"");
             return true;
         }
