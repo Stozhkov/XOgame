@@ -50,13 +50,13 @@ public class Field {
 
     public boolean validation (char whoseNextMove) {
 
-        if (checkLines() || checkColumns() || checkDiagonalLeft() || checkDiagonalRight()) {
-            System.out.println("Победил игрок \"" + whoseNextMove + "\"");
+        if (checkLines(whoseNextMove) || checkColumns(whoseNextMove) || checkDiagonalLeft(whoseNextMove) || checkDiagonalRight(whoseNextMove)) {
+            System.out.println("Игра окончена. Победил игрок \"" + whoseNextMove + "\"");
             return true;
         }
 
-        if (checkNoMoves()) {
-            System.out.println("Ходов больше нет.");
+        if (!checkNoMoves()) {
+            System.out.println("Игра окончена. Ходов больше нет.");
             System.out.println("Победила дружба! ;-)");
             return true;
         }
@@ -64,110 +64,97 @@ public class Field {
         return false;
     }
 
-    private boolean checkLines() {
+    private boolean checkLines(int whoseNextMove) {
 
+        int sumWinningLine = whoseNextMove * fieldSize;
         boolean checkResult = false;
+        int sumCheckedLine;
 
         for (int i = 0; i < fieldSize; i++) {
 
-            char cell = 0;
+            sumCheckedLine = 0;
 
-            if (field[i][0] != DEFAULT_FIELD_VALUE) {
-                cell = field[i][0];
+            for (int j = 0; j < fieldSize; j++) {
+                sumCheckedLine += field[i][j];
             }
-            for (int j = 1; j < fieldSize; j++) {
-                if (field[i][j] == cell) {
-                    if (j == (fieldSize - 1)) {
-                        checkResult = true;
-                    }
-                } else {
-                    break;
-                }
+
+            if (sumCheckedLine == sumWinningLine) {
+                checkResult = true;
             }
         }
+
         return checkResult;
     }
 
-    private boolean checkColumns() {
+    private boolean checkColumns(int whoseNextMove) {
 
+        int sumWinningLine = whoseNextMove * fieldSize;
         boolean checkResult = false;
+        int sumCheckedLine;
 
         for (int j = 0; j < fieldSize; j++) {
 
-            char cell = 0;
+            sumCheckedLine = 0;
 
-            if (field[0][j] != DEFAULT_FIELD_VALUE) {
-                cell = field[0][j];
+            for (int i = 0; i < fieldSize; i++) {
+                sumCheckedLine += field[i][j];
             }
-            for (int i = 1; i < fieldSize; i++) {
-                if (field[i][j] == cell) {
-                    if (i == (fieldSize - 1)) {
-                        checkResult = true;
-                    }
-                }  else {
-                    break;
-                }
+
+            if (sumCheckedLine == sumWinningLine) {
+                checkResult = true;
             }
         }
+
         return checkResult;
     }
 
-    private boolean checkDiagonalLeft() {
+    private boolean checkDiagonalLeft(int whoseNextMove) {
 
-        char cell;
+        int sumWinningLine = whoseNextMove * fieldSize;
+        boolean checkResult = false;
+        int sumCheckedLine = 0;
 
-        if (field[0][0] != DEFAULT_FIELD_VALUE) {
-            cell = field[0][0];
-        } else {
-            return false;
+        for (int i = 0; i < fieldSize; i++) {
+
+            sumCheckedLine += field[i][i];
         }
 
-        for (int i = 1; i < fieldSize; i++) {
-
-            if (field[i][i] == cell) {
-                if (i == (fieldSize - 1)) {
-                    return true;
-                }
-            } else {
-                return false;
-            }
+        if (sumCheckedLine == sumWinningLine) {
+            checkResult = true;
         }
 
-        return false;
+        return checkResult;
     }
 
-    private boolean checkDiagonalRight() {
+    private boolean checkDiagonalRight(int whoseNextMove) {
 
-        char cell;
+        int sumWinningLine = whoseNextMove * fieldSize;
+        boolean checkResult = false;
+        int sumCheckedLine = 0;
 
-        if (field[fieldSize -1][0] != DEFAULT_FIELD_VALUE) {
-            cell = field[fieldSize -1][0];
-        } else {
-            return false;
+        for (int i = 0; i < fieldSize; i++) {
+            sumCheckedLine += field[(fieldSize - 1) - i][i];
         }
 
-        for (int i = 1; i < fieldSize; i++)
-            if (field[fieldSize -1-i][i] == cell) {
-                if (i == (fieldSize - 1)) {
-                    return true;
-                }
-            } else {
-                return false;
-            }
+        if (sumCheckedLine == sumWinningLine) {
+            checkResult = true;
+        }
 
-        return false;
+        return checkResult;
     }
 
     private boolean checkNoMoves() {
 
+        boolean checkResult = false;
+
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++){
                 if (field[i][j] == DEFAULT_FIELD_VALUE) {
-                    return false;
+                    checkResult = true;
                 }
             }
         }
 
-        return true;
+        return checkResult;
     }
 }
