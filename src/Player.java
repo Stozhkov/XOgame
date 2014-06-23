@@ -27,6 +27,14 @@ public class Player {
         }
     }
 
+    public char whoOpponent() {
+        char opponent;
+        changePlayer();
+        opponent = getWhoseNextMove();
+        changePlayer();
+        return opponent;
+    }
+
     public void printWhoseMove() {
 
         System.out.println("Ходит игрок - \"" + whoseNextMove + "\"");

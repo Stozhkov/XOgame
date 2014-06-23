@@ -12,48 +12,78 @@ public class Main {
 
         boolean endGame = false;
         boolean playerMadeMove;
-
-        Player player = new Player();
+        boolean isComputer;
+        boolean isComputerMove = false;
 
         System.out.println("*******************************************************");
         System.out.println("Игра крестики - нолики");
         System.out.println("*******************************************************");
 
+        System.out.println("С кем будите играть?.");
+        System.out.println("  Введите 1 если будите играть с компьютером");
+        System.out.println("  Введите 2 если будите играть с человеком");
+        System.out.print("Ожидается ввод пользователя: ");
+        int playerNum = getPlayerNum(1, 2);
+
+        if (playerNum == 1) {
+            isComputer = true;
+        } else {
+            isComputer = false;
+        }
+
+        Player player = new Player();
+
         System.out.println("Задайте размер игрового поля.");
         System.out.print("Диапазон допустимых значений от " + MIN_FIELD_SIZE + " до " + MAX_FIELD_SIZE + ": ");
         Field field = new Field(getPlayerNum(MIN_FIELD_SIZE, MAX_FIELD_SIZE));
-
-        System.out.println("*******************************************************");
 
         System.out.println("1 игрок выбирает за кого он будет играть.");
         System.out.println("  Введите 1 если будите играть Х");
         System.out.println("  Введите 2 если будите играть О");
         System.out.print("Ожидается ввод пользователя: ");
+
         player.playerSelection(getPlayerNum(1, 2));
+
         System.out.println("*******************************************************");
+        System.out.println("Игра началась!");
+        field.showFields();
 
         while (!endGame){
 
-            field.showFields();
-            player.printWhoseMove();
+            if (isComputer && isComputerMove) {
 
-            System.out.print("Введите координату по вертикальной оси от 1 до " + field.getFieldSize() + ":");
-            verticalCoordinate = getPlayerNum(1, field.getFieldSize());
-
-            System.out.print("Введите координату по горизонтальной оси от 1 до " + field.getFieldSize() + ":");
-            horizontalCoordinate = getPlayerNum(1, field.getFieldSize());
-
-            playerMadeMove = field.setFields(verticalCoordinate-1, horizontalCoordinate-1, player.getWhoseNextMove());
-
-            System.out.println("*******************************************************");
-
-            if (playerMadeMove) {
+                System.out.println("Ход компьютера.");
+                field.think(player.getWhoseNextMove(), player.whoOpponent());
                 endGame = field.validation(player.getWhoseNextMove());
                 player.changePlayer();
+                isComputerMove = !isComputerMove;
+                field.showFields();
+
+            } else {
+
+                player.printWhoseMove();
+                playerMadeMove = false;
+
+                while (playerMadeMove == false) {
+
+                    System.out.print("Введите координату по вертикальной оси от 1 до " + field.getFieldSize() + ":");
+                    verticalCoordinate = getPlayerNum(1, field.getFieldSize());
+
+                    System.out.print("Введите координату по горизонтальной оси от 1 до " + field.getFieldSize() + ":");
+                    horizontalCoordinate = getPlayerNum(1, field.getFieldSize());
+
+                    playerMadeMove = field.setFields(verticalCoordinate - 1, horizontalCoordinate - 1, player.getWhoseNextMove());
+                }
+
+                if (playerMadeMove) {
+                    endGame = field.validation(player.getWhoseNextMove());
+                    player.changePlayer();
+                }
+
+                isComputerMove = !isComputerMove;
+                field.showFields();
             }
         }
-
-        field.showFields();
     }
 
     public static int getPlayerNum(int minValue, int maxValue) {
