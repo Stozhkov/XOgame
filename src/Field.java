@@ -173,10 +173,10 @@ public class Field {
                 checkDiagonalRightWinningMove(whoseNextMove)) {
             System.out.println("Вижу выигрышную комбинацию");
             setFields(winVerticalCoordinate, winHorizontalCoordinate, whoseNextMove);
-        } else if (checkLinesDefensiveMove(whoseNextMove, opponent) ||
-                checkColumnsDefensiveMove(whoseNextMove, opponent) ||
-                checkDiagonalLeftDefensiveMove(whoseNextMove, opponent) ||
-                checkDiagonalRightDefensiveMove(whoseNextMove, opponent)) {
+        } else if (checkLinesDefensiveMove(opponent) ||
+                checkColumnsDefensiveMove(opponent) ||
+                checkDiagonalLeftDefensiveMove(opponent) ||
+                checkDiagonalRightDefensiveMove(opponent)) {
             System.out.println("Вижу надо защищаться");
             setFields(winVerticalCoordinate, winHorizontalCoordinate, whoseNextMove);
         } else {
@@ -316,7 +316,7 @@ public class Field {
         return checkResult;
     }
 
-    private boolean checkLinesDefensiveMove(char whoseNextMove, char opponent) {
+    private boolean checkLinesDefensiveMove(char opponent) {
 
         int sumWinningLine = (opponent * (fieldSize - 1)) + (int)DEFAULT_FIELD_VALUE;
         int winningLines = -1;
@@ -350,7 +350,7 @@ public class Field {
         return checkResult;
     }
 
-    private boolean checkColumnsDefensiveMove(char whoseNextMove, char opponent) {
+    private boolean checkColumnsDefensiveMove(char opponent) {
 
         int sumWinningLine = (opponent * (fieldSize - 1)) + (int)DEFAULT_FIELD_VALUE;
         int winningColumns = -1;
@@ -384,7 +384,7 @@ public class Field {
         return checkResult;
     }
 
-    private boolean checkDiagonalLeftDefensiveMove(char whoseNextMove, char opponent) {
+    private boolean checkDiagonalLeftDefensiveMove(char opponent) {
 
         int sumWinningDiagonal = (opponent * (fieldSize - 1)) + (int)DEFAULT_FIELD_VALUE;
         boolean checkResult = false;
@@ -408,7 +408,7 @@ public class Field {
         return checkResult;
     }
 
-    private boolean checkDiagonalRightDefensiveMove(char whoseNextMove, char opponent) {
+    private boolean checkDiagonalRightDefensiveMove(char opponent) {
 
         int sumWinningDiagonal = (opponent * (fieldSize - 1)) + (int)DEFAULT_FIELD_VALUE;
         boolean checkResult = false;
@@ -430,17 +430,5 @@ public class Field {
         }
 
         return checkResult;
-    }
-
-    public boolean checkCellFree(int verticalCoordinate, int horizontalCoordinate) {
-        boolean cellFree;
-
-        if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
-            cellFree = true;
-        } else {
-            cellFree = false;
-        }
-
-        return cellFree;
     }
 }

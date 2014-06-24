@@ -64,7 +64,7 @@ public class Main {
                 player.printWhoseMove();
                 playerMadeMove = false;
 
-                while (playerMadeMove == false) {
+                while (!playerMadeMove) {
 
                     System.out.print("Введите координату по вертикальной оси от 1 до " + field.getFieldSize() + ":");
                     verticalCoordinate = getPlayerNum(1, field.getFieldSize());
