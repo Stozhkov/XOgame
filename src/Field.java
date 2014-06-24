@@ -5,14 +5,22 @@ public class Field {
     private static final char DEFAULT_FIELD_VALUE = ' ';
     private final int fieldSize;
     private char field[][];
-    private int winVerticalCoordinate;
-    private int winHorizontalCoordinate;
+    private int verticalCoordinate;
+    private int horizontalCoordinate;
 
     public Field(int fieldSize) {
 
         this.fieldSize = fieldSize;
         field = new char[fieldSize][fieldSize];
         setFieldsDefault();
+    }
+
+    public int getVerticalCoordinate() {
+        return verticalCoordinate + 1;
+    }
+
+    public int getHorizontalCoordinate() {
+        return horizontalCoordinate + 1;
     }
 
     private void setFieldsDefault() {
@@ -172,13 +180,13 @@ public class Field {
                 checkDiagonalLeftWinningMove(whoseNextMove) ||
                 checkDiagonalRightWinningMove(whoseNextMove)) {
             System.out.println("Вижу выигрышную комбинацию");
-            setFields(winVerticalCoordinate, winHorizontalCoordinate, whoseNextMove);
+            setFields(verticalCoordinate, horizontalCoordinate, whoseNextMove);
         } else if (checkLinesDefensiveMove(opponent) ||
                 checkColumnsDefensiveMove(opponent) ||
                 checkDiagonalLeftDefensiveMove(opponent) ||
                 checkDiagonalRightDefensiveMove(opponent)) {
             System.out.println("Вижу надо защищаться");
-            setFields(winVerticalCoordinate, winHorizontalCoordinate, whoseNextMove);
+            setFields(verticalCoordinate, horizontalCoordinate, whoseNextMove);
         } else {
             randomComputerMove(whoseNextMove);
         }
@@ -186,15 +194,13 @@ public class Field {
     }
 
     private void randomComputerMove(char whoseNextMove) {
-        int randomVerticalCoordinate;
-        int randomHorizontalCoordinate;
 
         Random random = new Random();
-        randomVerticalCoordinate = random.nextInt(fieldSize);
-        randomHorizontalCoordinate = random.nextInt(fieldSize);
+        verticalCoordinate = random.nextInt(fieldSize);
+        horizontalCoordinate = random.nextInt(fieldSize);
 
-        if (field[randomVerticalCoordinate][randomHorizontalCoordinate] == DEFAULT_FIELD_VALUE) {
-            field[randomVerticalCoordinate][randomHorizontalCoordinate] = whoseNextMove;
+        if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
+            field[verticalCoordinate][horizontalCoordinate] = whoseNextMove;
         } else {
             randomComputerMove(whoseNextMove);
         }
@@ -218,7 +224,7 @@ public class Field {
             if (sumCheckedLine == sumWinningLine) {
                 checkResult = true;
                 winningLines = i;
-                winVerticalCoordinate = winningLines;
+                verticalCoordinate = winningLines;
                 break;
             }
         }
@@ -226,7 +232,7 @@ public class Field {
         if (winningLines != -1) {
             for (int j = 0; j < fieldSize; j++) {
                 if (field[winningLines][j] == DEFAULT_FIELD_VALUE) {
-                    winHorizontalCoordinate = j;
+                    horizontalCoordinate = j;
                 }
             }
         }
@@ -252,7 +258,7 @@ public class Field {
             if (sumCheckedLine == sumWinningLine) {
                 checkResult = true;
                 winningColumns = j;
-                winHorizontalCoordinate = winningColumns;
+                horizontalCoordinate = winningColumns;
                 break;
             }
         }
@@ -260,7 +266,7 @@ public class Field {
         if (winningColumns != -1) {
             for (int i = 0; i < fieldSize; i++) {
                 if (field[i][winningColumns] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = i;
+                    verticalCoordinate = i;
                 }
             }
         }
@@ -283,13 +289,14 @@ public class Field {
 
             for (int i = 0; i < fieldSize; i++) {
                 if (field[i][i] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = i;
-                    winHorizontalCoordinate = i;
+                    verticalCoordinate = i;
+                    horizontalCoordinate = i;
                 }
             }
         }
 
         return checkResult;
+
     }
 
     private boolean checkDiagonalRightWinningMove(int whoseNextMove) {
@@ -307,8 +314,8 @@ public class Field {
 
             for (int i = 0; i < fieldSize; i++) {
                 if (field[(fieldSize - 1) - i][i] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = (fieldSize - 1) - i;
-                    winHorizontalCoordinate = i;
+                    verticalCoordinate = (fieldSize - 1) - i;
+                    horizontalCoordinate = i;
                 }
             }
         }
@@ -334,7 +341,7 @@ public class Field {
             if (sumCheckedLine == sumWinningLine) {
                 checkResult = true;
                 winningLines = i;
-                winVerticalCoordinate = winningLines;
+                verticalCoordinate = winningLines;
                 break;
             }
         }
@@ -342,7 +349,7 @@ public class Field {
         if (winningLines != -1) {
             for (int j = 0; j < fieldSize; j++) {
                 if (field[winningLines][j] == DEFAULT_FIELD_VALUE) {
-                    winHorizontalCoordinate = j;
+                    horizontalCoordinate = j;
                 }
             }
         }
@@ -368,7 +375,7 @@ public class Field {
             if (sumCheckedLine == sumWinningLine) {
                 checkResult = true;
                 winningColumns = j;
-                winHorizontalCoordinate = winningColumns;
+                horizontalCoordinate = winningColumns;
                 break;
             }
         }
@@ -376,7 +383,7 @@ public class Field {
         if (winningColumns != -1) {
             for (int i = 0; i < fieldSize; i++) {
                 if (field[i][winningColumns] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = i;
+                    verticalCoordinate = i;
                 }
             }
         }
@@ -399,8 +406,8 @@ public class Field {
 
             for (int i = 0; i < fieldSize; i++) {
                 if (field[i][i] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = i;
-                    winHorizontalCoordinate = i;
+                    verticalCoordinate = i;
+                    horizontalCoordinate = i;
                 }
             }
         }
@@ -423,8 +430,8 @@ public class Field {
 
             for (int i = 0; i < fieldSize; i++) {
                 if (field[(fieldSize - 1) - i][i] == DEFAULT_FIELD_VALUE) {
-                    winVerticalCoordinate = (fieldSize - 1) - i;
-                    winHorizontalCoordinate = i;
+                    verticalCoordinate = (fieldSize - 1) - i;
+                    horizontalCoordinate = i;
                 }
             }
         }
