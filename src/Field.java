@@ -8,10 +8,16 @@ public class Field {
     private int verticalCoordinate;
     private int horizontalCoordinate;
 
+    private int stack [][];
+    private final int stackSize;
+    private int stackPosition = -1;
+
     public Field(int fieldSize) {
 
+        this.stackSize = fieldSize * fieldSize;
         this.fieldSize = fieldSize;
         field = new char[fieldSize][fieldSize];
+        stack = new int[this.stackSize][3];
         setFieldsDefault();
     }
 
@@ -437,5 +443,40 @@ public class Field {
         }
 
         return checkResult;
+    }
+
+    public void printStack () {
+        System.out.println("---лог старт-------------");
+        for (int i = 0; i <= stackPosition; i++) {
+            System.out.print("Игрок " + (char)stack[i][2] + " сходил в ячейку ");
+            for (int j = 0; j < 2; j++) {
+                if (j == 0) {
+                    System.out.print(stack[i][j] + ", ");
+                } else {
+                    System.out.print(stack[i][j]);
+                }
+            }
+            System.out.println("");
+        }
+        System.out.println("---лог стоп--------------");
+    }
+
+    public void addToStack(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
+        stackPosition++;
+        stack[stackPosition][0] = verticalCoordinate;
+        stack[stackPosition][1] = horizontalCoordinate;
+        stack[stackPosition][2] = (int)whoseNextMove;
+    }
+
+    public void cancelMove(int countMove) {
+        for (int i = stackPosition; i > stackPosition - (countMove * 2); i--) {
+            field[stack[i][0] - 1][stack[i][1] -1] = DEFAULT_FIELD_VALUE;
+            System.out.println((stack[i][0] - 1) + " X " + (stack[i][1] - 1));
+        }
+        stackPosition = stackPosition - (countMove * 2);
+    }
+
+    public int getStackPosition() {
+        return stackPosition + 1;
     }
 }

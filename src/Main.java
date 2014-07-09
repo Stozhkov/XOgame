@@ -37,8 +37,6 @@ public class Main {
         System.out.print("Диапазон допустимых значений от " + MIN_FIELD_SIZE + " до " + MAX_FIELD_SIZE + ": ");
         Field field = new Field(getPlayerNum(MIN_FIELD_SIZE, MAX_FIELD_SIZE));
 
-        History history = new History(field.getFieldSize());
-
         System.out.println("1 игрок выбирает за кого он будет играть.");
         System.out.println("  Введите 1 если будите играть Х");
         System.out.println("  Введите 2 если будите играть О");
@@ -56,28 +54,32 @@ public class Main {
 
                 System.out.println("Ход компьютера.");
                 field.think(player.getWhoseNextMove(), player.whoOpponent());
-                history.addToStack(field.getVerticalCoordinate(), field.getHorizontalCoordinate(), player.getWhoseNextMove());
+                field.addToStack(field.getVerticalCoordinate(), field.getHorizontalCoordinate(), player.getWhoseNextMove());
                 endGame = field.validation(player.getWhoseNextMove());
                 player.changePlayer();
                 isComputerMove = !isComputerMove;
                 field.showFields();
-                history.printStack();
+                field.printStack();
 
             } else {
 
                 player.printWhoseMove();
                 playerMadeMove = false;
 
-/*                if (isComputer) {
+                if (isComputer && field.getStackPosition() != 0) {
                     System.out.println("Отмотаем назад?");
                     System.out.println("  Если да то введите 1,");
-                    System.out.println("  Если нет то введите 2,");
+                    System.out.print("  Если нет то введите 2,");
                     int choiceUser = getPlayerNum(1, 2);
 
                     if (choiceUser == 1) {
-
+                        System.out.println("Сколько ваших ходов отменить?");
+                        System.out.print("(Можно томенить от 1 до " + (field.getStackPosition() / 2) + " ходов)");
+                        choiceUser = getPlayerNum(1, field.getStackPosition());
+                        field.cancelMove(choiceUser);
+                        field.showFields();
                     }
-                }*/
+                }
 
                 while (!playerMadeMove) {
 
@@ -91,14 +93,14 @@ public class Main {
                 }
 
                 if (playerMadeMove) {
-                    history.addToStack(verticalCoordinate, horizontalCoordinate, player.getWhoseNextMove());
+                    field.addToStack(verticalCoordinate, horizontalCoordinate, player.getWhoseNextMove());
                     endGame = field.validation(player.getWhoseNextMove());
                     player.changePlayer();
                 }
 
                 isComputerMove = !isComputerMove;
                 field.showFields();
-                history.printStack();
+                field.printStack();
             }
         }
     }
