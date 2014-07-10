@@ -8,25 +8,14 @@ public class Field {
     private int verticalCoordinate;
     private int horizontalCoordinate;
 
-    private int stack [][];
-    private final int stackSize;
-    private int stackPosition = -1;
+    public Stack history;
 
     public Field(int fieldSize) {
 
-        this.stackSize = fieldSize * fieldSize;
+        history = new Stack(fieldSize);
         this.fieldSize = fieldSize;
         field = new char[fieldSize][fieldSize];
-        stack = new int[this.stackSize][3];
         setFieldsDefault();
-    }
-
-    public int getVerticalCoordinate() {
-        return verticalCoordinate + 1;
-    }
-
-    public int getHorizontalCoordinate() {
-        return horizontalCoordinate + 1;
     }
 
     private void setFieldsDefault() {
@@ -59,6 +48,7 @@ public class Field {
 
         if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
             field[verticalCoordinate][horizontalCoordinate] = whoseNextMove;
+            history.addToStack(verticalCoordinate, horizontalCoordinate, whoseNextMove);
             return true;
         } else {
             System.out.println("Данная ячейка занята. Выберете другую.");
@@ -81,7 +71,6 @@ public class Field {
             System.out.println("Победила дружба! ;-)");
             return true;
         }
-
         return false;
     }
 
@@ -103,7 +92,6 @@ public class Field {
                 checkResult = true;
             }
         }
-
         return checkResult;
     }
 
@@ -125,7 +113,6 @@ public class Field {
                 checkResult = true;
             }
         }
-
         return checkResult;
     }
 
@@ -143,7 +130,6 @@ public class Field {
         if (sumCheckedLine == sumWinningLine) {
             checkResult = true;
         }
-
         return checkResult;
     }
 
@@ -175,7 +161,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -195,8 +180,8 @@ public class Field {
             setFields(verticalCoordinate, horizontalCoordinate, whoseNextMove);
         } else {
             randomComputerMove(whoseNextMove);
+            System.out.println("Случайный ход");
         }
-
     }
 
     private void randomComputerMove(char whoseNextMove) {
@@ -206,7 +191,7 @@ public class Field {
         horizontalCoordinate = random.nextInt(fieldSize);
 
         if (field[verticalCoordinate][horizontalCoordinate] == DEFAULT_FIELD_VALUE) {
-            field[verticalCoordinate][horizontalCoordinate] = whoseNextMove;
+            setFields(verticalCoordinate, horizontalCoordinate, whoseNextMove);
         } else {
             randomComputerMove(whoseNextMove);
         }
@@ -242,7 +227,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -276,7 +260,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -300,7 +283,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
 
     }
@@ -325,7 +307,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -359,7 +340,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -393,7 +373,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -417,7 +396,6 @@ public class Field {
                 }
             }
         }
-
         return checkResult;
     }
 
@@ -445,38 +423,17 @@ public class Field {
         return checkResult;
     }
 
-    public void printStack () {
-        System.out.println("---лог старт-------------");
-        for (int i = 0; i <= stackPosition; i++) {
-            System.out.print("Игрок " + (char)stack[i][2] + " сходил в ячейку ");
-            for (int j = 0; j < 2; j++) {
-                if (j == 0) {
-                    System.out.print(stack[i][j] + ", ");
-                } else {
-                    System.out.print(stack[i][j]);
-                }
-            }
-            System.out.println("");
-        }
-        System.out.println("---лог стоп--------------");
-    }
-
-    public void addToStack(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
-        stackPosition++;
-        stack[stackPosition][0] = verticalCoordinate;
-        stack[stackPosition][1] = horizontalCoordinate;
-        stack[stackPosition][2] = (int)whoseNextMove;
-    }
-
     public void cancelMove(int countMove) {
-        for (int i = stackPosition; i > stackPosition - (countMove * 2); i--) {
-            field[stack[i][0] - 1][stack[i][1] -1] = DEFAULT_FIELD_VALUE;
-            System.out.println((stack[i][0] - 1) + " X " + (stack[i][1] - 1));
+
+        int stack[][] = history.getStack();
+
+        for (int i = history.getStackPosition(); i > history.getStackPosition() - (countMove * 2); i--) {
+            field[(stack[i - 1][0])][(stack[i - 1][1])] = DEFAULT_FIELD_VALUE;
         }
-        stackPosition = stackPosition - (countMove * 2);
+        history.setStackPosition(history.getStackPosition() - (countMove * 2));
     }
 
     public int getStackPosition() {
-        return stackPosition + 1;
+        return history.getStackPosition();
     }
 }

@@ -54,12 +54,11 @@ public class Main {
 
                 System.out.println("Ход компьютера.");
                 field.think(player.getWhoseNextMove(), player.whoOpponent());
-                field.addToStack(field.getVerticalCoordinate(), field.getHorizontalCoordinate(), player.getWhoseNextMove());
                 endGame = field.validation(player.getWhoseNextMove());
                 player.changePlayer();
                 isComputerMove = !isComputerMove;
                 field.showFields();
-                field.printStack();
+//                field.history.printStack();
 
             } else {
 
@@ -68,14 +67,15 @@ public class Main {
 
                 if (isComputer && field.getStackPosition() != 0) {
                     System.out.println("Отмотаем назад?");
-                    System.out.println("  Если да то введите 1,");
-                    System.out.print("  Если нет то введите 2,");
+                    System.out.println("  Если да то введите 1");
+                    System.out.println("  Если нет то введите 2");
+                    System.out.print("Ожидается ввод пользователя: ");
                     int choiceUser = getPlayerNum(1, 2);
 
                     if (choiceUser == 1) {
                         System.out.println("Сколько ваших ходов отменить?");
                         System.out.print("(Можно томенить от 1 до " + (field.getStackPosition() / 2) + " ходов)");
-                        choiceUser = getPlayerNum(1, field.getStackPosition());
+                        choiceUser = getPlayerNum(1, field.getStackPosition() / 2);
                         field.cancelMove(choiceUser);
                         field.showFields();
                     }
@@ -93,14 +93,13 @@ public class Main {
                 }
 
                 if (playerMadeMove) {
-                    field.addToStack(verticalCoordinate, horizontalCoordinate, player.getWhoseNextMove());
                     endGame = field.validation(player.getWhoseNextMove());
                     player.changePlayer();
                 }
 
                 isComputerMove = !isComputerMove;
                 field.showFields();
-                field.printStack();
+//                field.history.printStack();
             }
         }
     }
