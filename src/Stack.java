@@ -1,7 +1,7 @@
 public class Stack {
 
     private int stack[][];
-    private final int stackSize;
+    protected final int stackSize;
     private int stackPosition = -1;
 
     public Stack(int stackSize) {
@@ -9,21 +9,21 @@ public class Stack {
         stack = new int[this.stackSize][3];
     }
 
-    public void printStack () {
-        System.out.println("---лог старт-------------");
-        for (int i = 0; i <= stackPosition; i++) {
-            System.out.print("Игрок " + (char)stack[i][2] + " сходил в ячейку ");
-            for (int j = 0; j < 2; j++) {
-                if (j == 0) {
-                    System.out.print((stack[i][j] + 1) + ", ");
-                } else {
-                    System.out.print((stack[i][j] + 1));
-                }
-            }
-            System.out.println("");
-        }
-        System.out.println("---лог стоп--------------");
-    }
+//    public void printStack () {
+//        System.out.println("---лог старт-------------");
+//        for (int i = 0; i <= stackPosition; i++) {
+//            System.out.print("Игрок " + (char)stack[i][2] + " сходил в ячейку ");
+//            for (int j = 0; j < 2; j++) {
+//                if (j == 0) {
+//                    System.out.print((stack[i][j] + 1) + ", ");
+//                } else {
+//                    System.out.print((stack[i][j] + 1));
+//                }
+//            }
+//            System.out.println("");
+//        }
+//        System.out.println("---лог стоп--------------");
+//    }
 
     public void addToStack(int verticalCoordinate, int horizontalCoordinate, char whoseNextMove) {
         stackPosition++;

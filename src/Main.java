@@ -7,8 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int verticalCoordinate = -1;
-        int horizontalCoordinate = -1;
+        int verticalCoordinate;
+        int horizontalCoordinate;
 
         boolean endGame = false;
         boolean playerMadeMove;
@@ -25,10 +25,13 @@ public class Main {
         System.out.print("Ожидается ввод пользователя: ");
         int playerNum = getPlayerNum(1, 2);
 
-        if (playerNum == 1) {
-            isComputer = true;
-        } else {
-            isComputer = false;
+        switch (playerNum) {
+            case 1:
+                isComputer = true;
+                break;
+            default:
+                isComputer = false;
+                break;
         }
 
         Player player = new Player();
@@ -57,29 +60,13 @@ public class Main {
                 endGame = field.validation(player.getWhoseNextMove());
                 player.changePlayer();
                 isComputerMove = !isComputerMove;
-                field.showFields();
-//                field.history.printStack();
+
+
 
             } else {
 
                 player.printWhoseMove();
                 playerMadeMove = false;
-
-                if (isComputer && field.getStackPosition() != 0) {
-                    System.out.println("Отмотаем назад?");
-                    System.out.println("  Если да то введите 1");
-                    System.out.println("  Если нет то введите 2");
-                    System.out.print("Ожидается ввод пользователя: ");
-                    int choiceUser = getPlayerNum(1, 2);
-
-                    if (choiceUser == 1) {
-                        System.out.println("Сколько ваших ходов отменить?");
-                        System.out.print("(Можно томенить от 1 до " + (field.getStackPosition() / 2) + " ходов)");
-                        choiceUser = getPlayerNum(1, field.getStackPosition() / 2);
-                        field.cancelMove(choiceUser);
-                        field.showFields();
-                    }
-                }
 
                 while (!playerMadeMove) {
 
@@ -92,15 +79,11 @@ public class Main {
                     playerMadeMove = field.setFields(verticalCoordinate - 1, horizontalCoordinate - 1, player.getWhoseNextMove());
                 }
 
-                if (playerMadeMove) {
-                    endGame = field.validation(player.getWhoseNextMove());
-                    player.changePlayer();
-                }
-
+                endGame = field.validation(player.getWhoseNextMove());
+                player.changePlayer();
                 isComputerMove = !isComputerMove;
-                field.showFields();
-//                field.history.printStack();
             }
+            field.showFields();
         }
     }
 

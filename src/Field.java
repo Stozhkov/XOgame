@@ -1,4 +1,6 @@
+import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Field {
 
@@ -52,6 +54,21 @@ public class Field {
             return true;
         } else {
             System.out.println("Данная ячейка занята. Выберете другую.");
+
+            System.out.println("Отмотаем назад?");
+            System.out.println("  Если да то введите 1");
+            System.out.println("  Если нет то введите 2");
+            System.out.print("Ожидается ввод пользователя: ");
+            int choiceUser = getPlayerNum(1, 2);
+
+            if (choiceUser == 1) {
+                System.out.println("Сколько ваших ходов отменить?");
+                System.out.print("(Можно томенить от 1 до " + (getStackPosition() / 2) + " ходов)");
+                choiceUser = getPlayerNum(1, getStackPosition() / 2);
+                cancelMove(choiceUser);
+                showFields();
+            }
+
             return false;
         }
     }
@@ -435,5 +452,32 @@ public class Field {
 
     public int getStackPosition() {
         return history.getStackPosition();
+    }
+
+    public int getPlayerNum(int minValue, int maxValue) {
+
+        Scanner reader = new Scanner(System.in);
+        int playerNum;
+
+        try {
+            playerNum = reader.nextInt();
+        }
+        catch (InputMismatchException e)
+        {
+            System.out.println("Вы ввели не число.");
+            System.out.print("Введите еще раз: ");
+            playerNum = getPlayerNum(minValue, maxValue);
+        }
+
+        if (playerNum <= maxValue && playerNum >= minValue) {
+            return playerNum;
+        }
+        else {
+            System.out.println("Введенное вами число выходит за пределы разрешенного диапазона.");
+            System.out.println("Диапазон допустимых значений от " + minValue + " до " + maxValue);
+            System.out.print("Введите еще раз: ");
+        }
+
+        return getPlayerNum(minValue, maxValue);
     }
 }
